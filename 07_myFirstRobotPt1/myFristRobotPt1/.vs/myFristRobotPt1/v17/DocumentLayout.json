@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Dev\\School\\CSC370_ArtificialIntelligence\\7.1myFirstRobotPt1\\myFristRobotPt1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{912C342E-3437-4222-9524-B0F1961CBB1D}|myFristRobotPt1.pyproj|C:\\Dev\\School\\CSC370_ArtificialIntelligence\\7.1myFirstRobotPt1\\myFristRobotPt1\\myFristRobotPt1.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{912C342E-3437-4222-9524-B0F1961CBB1D}|myFristRobotPt1.pyproj|solutionrelative:myFristRobotPt1.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "myFristRobotPt1.py",
+              "DocumentMoniker": "C:\\Dev\\School\\CSC370_ArtificialIntelligence\\7.1myFirstRobotPt1\\myFristRobotPt1\\myFristRobotPt1.py",
+              "RelativeDocumentMoniker": "myFristRobotPt1.py",
+              "ToolTip": "C:\\Dev\\School\\CSC370_ArtificialIntelligence\\7.1myFirstRobotPt1\\myFristRobotPt1\\myFristRobotPt1.py",
+              "RelativeToolTip": "myFristRobotPt1.py",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-03-03T23:57:44.226Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

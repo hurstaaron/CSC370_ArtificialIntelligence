@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Dev\\School\\CSC370_ArtificialIntelligence\\8.1myFirstRobotPt2\\myFirstRobotPt2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9CA82293-449A-4353-825A-F7F18CC9EB5F}|myFirstRobotPt2.pyproj|C:\\Dev\\School\\CSC370_ArtificialIntelligence\\8.1myFirstRobotPt2\\myFirstRobotPt2\\myFirstRobotPt2.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{9CA82293-449A-4353-825A-F7F18CC9EB5F}|myFirstRobotPt2.pyproj|solutionrelative:myFirstRobotPt2.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "myFirstRobotPt2.py",
+              "DocumentMoniker": "C:\\Dev\\School\\CSC370_ArtificialIntelligence\\8.1myFirstRobotPt2\\myFirstRobotPt2\\myFirstRobotPt2.py",
+              "RelativeDocumentMoniker": "myFirstRobotPt2.py",
+              "ToolTip": "C:\\Dev\\School\\CSC370_ArtificialIntelligence\\8.1myFirstRobotPt2\\myFirstRobotPt2\\myFirstRobotPt2.py*",
+              "RelativeToolTip": "myFirstRobotPt2.py*",
+              "ViewState": "AgIAADEAAAAAAAAAAAAwwFIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-03-04T03:03:43.098Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

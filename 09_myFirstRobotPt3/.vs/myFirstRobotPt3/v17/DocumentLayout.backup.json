@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\My Drive\\03_Documents_ManualBackup\\Education\\UAT\\CSC370_ArtificialIntelligence\\Mod09\\myFirstRobotPt3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2CEAD055-6781-4A0C-8DDC-4D1383127729}|myFirstRobotPt3.pyproj|G:\\My Drive\\03_Documents_ManualBackup\\Education\\UAT\\CSC370_ArtificialIntelligence\\Mod09\\myFirstRobotPt3\\myFirstRobotPt3.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{2CEAD055-6781-4A0C-8DDC-4D1383127729}|myFirstRobotPt3.pyproj|solutionrelative:myFirstRobotPt3.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "myFirstRobotPt3.py",
+              "DocumentMoniker": "G:\\My Drive\\03_Documents_ManualBackup\\Education\\UAT\\CSC370_ArtificialIntelligence\\Mod09\\myFirstRobotPt3\\myFirstRobotPt3.py",
+              "RelativeDocumentMoniker": "myFirstRobotPt3.py",
+              "ToolTip": "G:\\My Drive\\03_Documents_ManualBackup\\Education\\UAT\\CSC370_ArtificialIntelligence\\Mod09\\myFirstRobotPt3\\myFirstRobotPt3.py",
+              "RelativeToolTip": "myFirstRobotPt3.py",
+              "ViewState": "AgIAAJkAAAAAAAAAAAAAAL0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2026-03-26T13:11:00.697Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
