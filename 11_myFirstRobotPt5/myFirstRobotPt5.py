@@ -93,12 +93,27 @@ def move_robot(move_num=0, total_moves=0):
     # And save this data to a file for training our model later.
     
     
-    # Make the new reward
-    rewards = [[], [], [], [], [], [], []]
+    # Make the new reward in a 10 x 6 table
+    #    0 = normal square
+    #    1 = patrol square
+    #  -50 = isles we want to avoid
+    #  +50 = charging station to go when Jobot is low
+    # +500 = burglar
+    rewards = [
+        [[0], [1], [1], [1], [1], [1], [1], [1], [1], [1]],
+        [[1], [1], [-50], [-50], [-50], [-50], [-50], [1], [1], [+50]],
+        [[1], [1], [1], [1], [1], [1], [1], [1], [1], [1]],
+        [[1], [1], [-50], [-50], [-50], [-50], [-50], [1], [1], [1]],
+        [[1], [1], [1], [1], [1], [+500], [1], [1], [1], [1]],
+        [[1], [1], [-50], [-50], [-50], [-50], [-50], [1], [1], [+50]],
+    ]
     
-    
-    
-    reward = 1 if direction == "right" else 0
+    # Do a look up in the rewards table above and get the reward value
+    # for the square JoBot just landed on. Remember the square is the state, 
+    # JoBot is the agent
+    reward = rewards[robot_row][robot_col]
+
+
     # Now we print the state, action, and reward to console. Remember in this case the state is 
     # the robot's position in the environment (grid), the action is the direction moved, 
     # and the reward is the what we just calculated.
@@ -217,6 +232,7 @@ draw_robot()
 
 # Most importantly for the app to work
 window.mainloop()
+
 
 
 
