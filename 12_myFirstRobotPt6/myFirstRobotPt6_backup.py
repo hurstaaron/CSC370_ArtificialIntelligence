@@ -12,24 +12,6 @@ from shutil import move
 import tkinter as tk    # we will use the GUI 
 import random           # so our agent moves randomly
 import time             # so our agent slows down to human speed  
-import os               # so we can check if the data file exists before we write to it    
-
-# Declare and instatiate the global file for data tracking
-log_file = None
-
-# ***** HELPER FUNCTION: Create a numbered data log file *****
-def get_next_log_filename():
-    # Start by checking the file number
-    file_number = 0
-    # Keep checking until we find a filename that does not already exists
-    while True:
-        # Build the file name: e.g data_store00000.txt
-        filename = f"data_store{file_number:05d}.txt"
-        # If the file does NOT exist, use the auto-incremented filename
-        if not os.path.exists(filename):
-            return filename
-        # Otherwise move to the next number
-        file_number += 1
 
 
 
@@ -96,9 +78,30 @@ def draw_robot():
 
 # ***** Function to move JoBot randomly (everything starts randomly_use Random) *****
 def move_robot(move_num=0, total_moves=0):
-    global robot_row, robot_col                     # track robot state using the following variables    
+    # track robot state using the following variables 
+    global robot_row, robot_col             
+
+    ##### Start Epsilon / Greedy Decision ##### 
+    # This determins if JoBot will explore (Epsilon) or exploit (Greedy)  
     directions = ["up", "down", "left", "right"]    # Jobot can move Up, Down, Left, Right - NOT diagnally
-    direction = random.choice(directions)           # JoBot will move in a randlom direction from the list we made above
+    if random.random() < epsilon:
+         ##### EXPLORE #####
+         direction = random.choice(directions)  # JoBot explores
+         # tell the user what is happening
+         print(f"Move {move_num} of {total_moves}: JoBot is EXPLORING, and chose to move {directions}")
+    else:
+        ##### EXPLOIT #####
+        # Here JoBot is going to look up the Q-values from the Q-table for its current state and 
+            # choose the action with the highest Q-value
+        # Think of the Q-table as a memory bank JoBot has learned from prior exploration experiences
+        state = (robot_row, robot_col)
+        direction = max(directions, key=lambda d: q_table[state][d]) # JoBot exploits
+        # tell the user what is happening
+        print(f"Move {move_num} of {total_moves}: JoBot is EXPLOITING, and chose to move {directions}")
+
+    #############################
+    ### Start Here Next Class ###
+    #############################
 
     # Evaluate the direction JoBot chose to move randomly
     if direction == "up":                               # Up                        
@@ -135,13 +138,31 @@ def move_robot(move_num=0, total_moves=0):
         [[1], [1], [-50], [-50], [-50], [-50], [-50], [1], [1], [1]],
         [[1], [1], [1], [1], [1], [+500], [1], [1], [1], [1]],
         [[1], [1], [-50], [-50], [-50], [-50], [-50], [1], [1], [+50]],
-    ]
+        ]
+    
+    # Create a Q-Table to store the QValues for each state-action pair
+    # Qtables is a data structure that helps our robot learn which actions are 
+        # best in each state based on the reward it recieves
+    # THis is JoBots memory from learning and experiences in the environment
+    q_table = {}
+    for row in range(num_rows):
+        for col in range(num_cols):
+            # For each square, we will have a dictionary of actions and their corresponding Q-values
+            q_table[(row, col)] = {"up": 0.0, "down": 0.0, "left": 0.0, "right": 0.0}
+    # Set the properties and Q-learning parameters for our robot
+    # Learning rate is how much JoBot trust the new information vs what JoNot already knows
+    learning_rate = 0.1
+    # Discount facto is how much JoBot cares about teh future rewards vs immediate rewards
+    # A value close to 1 means it cares a lot about the future, and 0 meanis it only cares about the immediate
+    discount_factor = 0.9
+    # Set the epsilon value for the exploration vs exploitation tradeoff
+    # Eplislon is the property that JoBot will choose a random action (explore) vs the action with the highest Q-value now (exploit)
+    epsilon = 0.3
     
     # Do a look up in the rewards table above and get the reward value
     # for the square JoBot just landed on. Remember the square is the state, 
     # JoBot is the agent
     reward = rewards[robot_row][robot_col]
-
 
     # Now we print the state, action, and reward to console. Remember in this case the state is 
     # the robot's position in the environment (grid), the action is the direction moved, 
@@ -149,9 +170,12 @@ def move_robot(move_num=0, total_moves=0):
     print(f"State: (Row {robot_row}, Column {robot_col}, Action: {direction}, Reward: {reward})")
     # Open a text file in append mode to log the data for where JoBot goes this episode.
     global log_file
-  
+    log_file =  open("data_store.txt", "w") 
     log_file.write(f"Move {move_num} of {total_moves}: State: (Row {robot_row}, Column {robot_col}, Action: {direction}, Reward: {reward})\n")
-   
+    # Close the file
+    log_file.close()
+    
+
 
 TOTAL_MOVES = 50 # Constant to track number of moves JoBot will make per episode
 
@@ -183,17 +207,7 @@ def run_episode():
     global current_move # keep track of JoBot's current move
 
     # Evaluate if JoBot has used all his moves for the episode
-    # Close the data log file when JoBot is done moving
     if current_move >= TOTAL_MOVES:
-        # This code block closes the data_store.txt when JoBot has finished moving
-        global log_file
-        # Close the log file if it is open
-        if log_file is not None:
-            log_file.write("=" * 60 + "\n") # Add a line of 60 equal signs
-            log_file.write("JoBot run finished.\n") # Tell user that JoBot is finished
-            log_file.close() # File closed
-            log_file = None # Assign log_file back to None
-
         # Episode is over, now let user know
         info_label.config(text=f"Jobot is all done and took {TOTAL_MOVES} random moves. Press RESET Button to restart.", fg="green" ) 
         # Re-enable the reset button now that the episode is finished
@@ -218,17 +232,6 @@ def start_simulation():
     global robot_row
     global robot_col
     global current_move
-    global log_file
-
-    # Create a new numbered log file for this iteration
-    log_filename = get_next_log_filename()
-    log_file = open(log_filename, "w")
-
-    # IMPORTANT:  Erase this code block if the headerline will ruing the data for ingesting into ML model
-    # Create header line for the file
-    log_file.write(f"JoBot run started. Total moves: {TOTAL_MOVES}\n")
-    log_file.write("#", * 60 + "\n")
-
     # Let's mnake the starting place the top left square right now
     robot_row = 0
     robot_col = 0

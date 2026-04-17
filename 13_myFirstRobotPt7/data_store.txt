@@ -1,0 +1,1 @@
+Move 500 of 500: State: (Row 0, Column 8, Action: left, Reward: 1)
