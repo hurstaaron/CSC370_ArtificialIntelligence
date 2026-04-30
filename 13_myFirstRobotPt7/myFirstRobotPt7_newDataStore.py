@@ -169,8 +169,7 @@ def move_robot(move_num=0, total_moves=0):
     robot_row = new_row
     robot_col = new_col
     
-    ''' CAN DELETE THIS B/C OF THE WHILE LOOP - 
-        Hanging on to this for eductional purposes    
+    ''' CAN DELETE THIS B/C OF THE WHILE LOOP
     # Evaluate the direction BBot chose to move randomly
     if direction == "up":                               # Up                        
         robot_row = max(0, robot_row - 1)

@@ -64,10 +64,15 @@ learning_rate = 0.1
 # Discount facto is how much BBot cares about teh future rewards vs immediate rewards
 # A value close to 1 means it cares a lot about the future, and 0 meanis it only cares about the immediate
 discount_factor = 0.9
+
 # Set the epsilon value for the exploration vs exploitation tradeoff
 # Eplislon is the property that BBot will choose a random action (explore) vs the action with the highest Q-value now (exploit)
-epsilon = 0.3
+# Adjust this to make BBot more and less greedy
+# At 0.3 = 30% exploration and 70% exploitation, at 0.7 = 70% exploration and 30% exploitation
+epsilon = 0.7 
 
+# Track how many times out robot visits every square
+visit_count = [[0] * num_cols for _ in range(num_rows)]
 
 cell_size = 70  # set the square size per cell
 robot_row = 0   # Set agent current state - row
@@ -96,10 +101,35 @@ def draw_grid():
 # ***** Function to create Agent BBot *****
 def draw_robot():
     canvas.delete('all')    # Delete everything on our canvas each time and redraw it
-    draw_grid()             # draw new grid
-
+    
+    # Right after we draw the grid, we want to draw a heat map
+    # EXAMPLE: Make the hot squares get more red and the cold will stay white
+    max_visits = max(visit_count[r][c] for r in range(num_rows) for c in range(num_cols)) or 1
+    # Walk BBot through the grid and each color square based on how many times it has been visited
+    # Paint each square with a color that gets more red the more it has been visited, 
+    # and stays white if it has  never been visited
+    for row in range(num_rows):
+        for col in range(num_cols):
+            # heat will b e avalue from 0 to 200, where 0 is never visited and
+            # 200 is the most visited square
+            # We can use the heat value to calculate the color of the square
+            heat = int((visit_count[row][col] / max_visits) * 200)
+            # Makes the squres get more red the hotter they get
+            # and less green and blue to make the color more red and less white
+            g = 255 - heat
+            b = 255 - heat
+            # This is the hex color code so if you wanted a green heat map
+            # We could use different values
+            color = f"#ff{g:02x}{b:02x}"
+            # Calculate the x and y position of the square we want to color
+            x1 = col * cell_size
+            y1 = row * cell_size
+            canvas.create_rectangle(x1, y1, x1 + cell_size, y1 + cell_size, fill=color, outline="")
+    
+    # draw new grid
+    draw_grid() 
     # Here let loop through every square and draw the reward value for that square in the middle of it
-        # so user can see the reward values for each square as they watch our robot move 
+    # so user can see the reward values for each square as they watch our robot move 
     for row in range(num_rows):
         for col in range(num_cols):
             # Calculate the x and y pos for thetest to be in the middle of the square
@@ -168,6 +198,9 @@ def move_robot(move_num=0, total_moves=0):
     # Now that we have a valid move, let's apply the move for real
     robot_row = new_row
     robot_col = new_col
+
+    # Count each visit BBot makes to the square here
+    visit_count[robot_row][robot_col] += 1
     
     ''' CAN DELETE THIS B/C OF THE WHILE LOOP - 
         Hanging on to this for eductional purposes    
@@ -234,10 +267,19 @@ def move_robot(move_num=0, total_moves=0):
     # Close the file
     log_file.close()
     
+TOTAL_MOVES = 50        # Constant to track number of moves BBot will make per episode
+''' -- MOVE_DELAY_MS = 50      # Set delay between each of the moves in milisecs -- '''
 
-TOTAL_MOVES = 50 # Constant to track number of moves BBot will make per episode
+# We changed the hard coded MOVE_DELAY_MS and went with a dictionaly of different speeds for BBot 
+# The user will be able to select speeds from the GUI
+speed_options = {
+    "Slow (1 sec/move)": 1000,          #  1 sec delay
+    "Medium (.5 sec/move)": 500,        # .5 sec delay this is the default
+    "Fast (.2 sec/move)": 200,          # .2 sec delay
+    "Boom, Boom (.05 sec/move)": 50,    # .05 sec delay
+}
 
-MOVE_DELAY_MS = 50    # Set delay between each of the moves in milisecs
+MOVE_DELAY_MS = 500     # This is the default
 
 current_move = 0 # Track BBot's current move
 
@@ -259,6 +301,25 @@ moves_entry.pack()
 # ***** Create frame to group the buttons *****
 button_frame = tk.Frame(window, pady=5)
 button_frame.pack()
+
+# Let the user know what the speed options are
+speed_label = tk.Label(window, text="Animations Speed:", font=("Arial", 12, "bold"), fg="darkblue")
+# Add label so it appears in the window
+speed_label.pack()
+
+# Create string var to hold the selected speed option from the dropdown menu
+speed_var = tk.StringVar(window)
+# Set the default values to the "Medium" or must match one of the keys in the speed_options dict exactly
+speed_var.set("Medium (.5 sec/move)")
+
+# Create the dropdown menu for speed selection, we use the keys from the speed_options
+# dictionary as the options for the dropdown
+speed_menu = tk.OptionMenu(window, speed_var, *speed_options.keys())
+# Set properties of the dropdown menus to make it look nice
+speed_menu.config(font=("Arial", 12), width=25, bg="lightblue", fg="black")
+# Add the dropdown menu to the window
+speed_menu.pack()
+
 
 # ***** Method that we can call over and over to run our episode and animate BBot *****
 def run_episode():
@@ -297,8 +358,11 @@ def start_simulation():
     global TOTAL_MOVES
     # Convert from string to int
     TOTAL_MOVES = int(moves_entry.get())
-   
-    # Reset the move counter
+    # Read the selected speed from the dropdown and update MOVE_DELAY_MS
+    global MOVE_DELAY_MS
+    MOVE_DELAY_MS = speed_options[speed_var.get()]
+
+    # Reset the move counter to 0
     current_move = 0
     # Disable the start and reset buttons during the simulation
     start_btn.config(state="disabled")
